@@ -1,3 +1,5 @@
+import type { CursorExtractor } from './cursor.type';
+
 export interface CursorPaginationArgs { //클라이언트가 제공하는 정보
   first?: number;
   after?: string;
@@ -9,7 +11,7 @@ export interface CursorPayload { //실제 커서 안에 들어가는 정보
   id: string | number;
   createdAt?: string; 
 }
-export interface PageInfo { //클라이언트한테 응답시 함꼐 주는 정보
+export interface PageInfo { //클라이언트한테 응답시 함께 주는 정보
   startCursor: string | null;
   endCursor: string | null;
   hasNextPage: boolean;
@@ -27,4 +29,19 @@ export interface CursorCodec<TCursor>{//인코더&디코더
 export interface Connection<TNode> {
   edges: Edge<TNode>[];
   pageInfo: PageInfo;
+}
+
+export interface CursorQueryBuilder<TCursor, TQuery>{
+   build(
+    args: CursorPaginationArgs,
+    cursor: TCursor | null,
+  ): TQuery;
+}
+export interface ConnectionBuilder<TNode, TCursor> {
+  build(
+    nodes: TNode[],
+    args: CursorPaginationArgs,
+    extractor: CursorExtractor<TNode, TCursor>,
+    codec: CursorCodec<TCursor>,
+  ): Connection<TNode>;
 }
