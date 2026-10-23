@@ -1,6 +1,6 @@
 import type { CursorPaginationArgs } from '../../common/cursor.interface';
 
-class ValidationCursorPaginationArgs {
+export class ValidationCursorPaginationArgs {
   validate(args: CursorPaginationArgs): boolean {
     const { first, after, last, before } = args;
 

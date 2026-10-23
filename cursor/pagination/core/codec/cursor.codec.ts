@@ -1,6 +1,6 @@
 import type { CursorCodec,CursorPaginationArgs,Connection,Edge } from '../../common/cursor.interface';
 
-class Base64CursorCodec<TCursor> implements CursorCodec<TCursor> {
+export class Base64CursorCodec<TCursor> implements CursorCodec<TCursor> {
   encode(cursor: TCursor): string {
     return Buffer.from(JSON.stringify(cursor)).toString('base64');
   }
