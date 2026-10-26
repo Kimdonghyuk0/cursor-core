@@ -9,6 +9,7 @@
     ]
   },
   "include": [
-    "cursor/**/*.ts"
+    "cursor/**/*.ts",
+    "example.ts"
   ]
 }
