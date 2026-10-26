@@ -14,12 +14,12 @@ export interface CursorPayload { //실제 커서 안에 들어가는 정보
 export interface PageInfo { //클라이언트한테 응답시 함께 주는 정보
   startCursor: string | null;
   endCursor: string | null;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
+  hasNextPage: boolean; // first 조회의 초과 데이터로 판단하며, last 조회에서는 false
+  hasPreviousPage: boolean; // last 조회의 초과 데이터로 판단하며, first 조회에서는 false
 }
 export interface Edge<TNode>{
   node:TNode;
-  cursor:String;
+  cursor: string;
 }
 export interface CursorCodec<TCursor>{//인코더&디코더
   encode(cursor: TCursor): string;
@@ -32,6 +32,8 @@ export interface Connection<TNode> {
 }
 
 export interface CursorQueryBuilder<TCursor, TQuery>{
+  // CursorPaginator.buildQuery()가 검증한 요청과 해석한 커서로 조회 조건을 만듭니다.
+  // 커서 경계는 제외하고, 요청 개수 + 1개를 조회해야 추가 페이지를 판별할 수 있습니다.
    build(
     args: CursorPaginationArgs,
     cursor: TCursor | null,

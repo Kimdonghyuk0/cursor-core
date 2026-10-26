@@ -16,8 +16,9 @@ export class ValidationCursorPaginationArgs {
 
     // forward pagination
     if (first != null) {
-      if (first <= 0) {
-        throw new Error('first는 1 이상이어야 합니다.');
+      // number 타입이어도 소수, NaN, Infinity가 들어올 수 있으므로 정수 여부를 확인합니다.
+      if (!Number.isInteger(first) || first <= 0) {
+        throw new Error('first는 양의 정수여야 합니다.');
       }
 
       if (before != null) {
@@ -27,8 +28,8 @@ export class ValidationCursorPaginationArgs {
 
     // backward pagination
     if (last != null) {
-      if (last <= 0) {
-        throw new Error('last는 1 이상이어야 합니다.');
+      if (!Number.isInteger(last) || last <= 0) {
+        throw new Error('last는 양의 정수여야 합니다.');
       }
 
       if (after != null) {
